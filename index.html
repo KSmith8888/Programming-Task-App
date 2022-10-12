@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+    <title>Programming Task App</title>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1 id="header">Programming Task App</h1>
+        </header>
+        <main>
+            <section>
+                <label for="add-task-form">Add a new Task</label>
+                <form id="add-task-form">
+                    <label for="add-task-input">Add Task:</label>
+                    <input id="add-task-input" type="text" required>
+                    <label for="task-type">Select Type:</label>
+                    <select id="task-type" required>
+                        <option>Other</option>
+                        <option>Bug Fix</option>
+                        <option>Test New Idea</option>
+                    </select>
+                <button type="submit" id="add-task-btn">Add</button>
+            </form>
+            </section>
+            <section>
+                <label for="reminder-preference-form">Change preference for automatic reminders:</label>
+                <form id="reminder-preference-form">
+                    <button type="button" id="stop-reminders-btn">Stop Reminders</button>
+                    <button type="button" id="add-reminders-btn">Add Reminders</button>
+                </form>
+            </section>
+            <section id="task-list"></section>
+            <dialog id="edit-dialog">
+                <div id="dialog-container">
+                    <p id="id-text">Id: <span id="task-id"></span></p>
+                    <form id="edit-form">
+                        <label for="edit-text">Update Task Text</label>
+                        <input id="edit-text" type="text">
+                        <button type="submit">Edit Task</button>
+                    </form>
+                    <button id="close-dialog-btn" type="button">Close</button>
+                </div>
+            </dialog>
+        </main>
+    </div>
+</body>
+</html>
