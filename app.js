@@ -9,9 +9,13 @@ class UserInterface {
         this.closeDialogBtn = document.querySelector('#close-dialog-btn');
         this.editForm = document.querySelector('#edit-form');
         this.editText = document.querySelector('#edit-text');
+        this.editType = document.querySelector('#edit-task-type');
         this.taskId = document.querySelector('#task-id');
+        this.reminderText = document.querySelector('#reminder-text');
+        this.reminderType = document.querySelector('#reminder-task-type');
         this.stopRemindersBtn = document.querySelector('#stop-reminders-btn');
-        this.addRemindersBtn = document.querySelector('#add-reminders-btn');
+        this.remindersForm = document.querySelector('#automatic-reminder-form');
+        this.reminderInterval = document.querySelector('#reminder-interval');
     }
     showTask(task) {
         const newTask = document.createElement('p');
@@ -24,24 +28,26 @@ class UserInterface {
         editBtn.classList.add('edit-task-btn');
         newTask.append(editBtn);
         editBtn.textContent = 'Edit Task';
-        eventListeners.addEditEvent(editBtn, task.Id);
+        events.addEditEvent(editBtn, task.Id);
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-task-btn');
         newTask.append(deleteBtn);
         deleteBtn.textContent = 'Delete';
-        eventListeners.addDeleteEvent(deleteBtn, task.Id);
+        events.addDeleteEvent(deleteBtn, task.Id);
     }
 }
 
-class Events {
+class EventListeners {
     constructor() {
         this.submitNewTask = ui.addTaskForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const newTask = {
-                Id: (task.taskItems.length + 1),
+                Id: (task.idValue),
                 Name: ui.addTaskInput.value,
                 Type: ui.taskType.value
             }
+            task.idValue++;
+            task.saveIdValue();
             ui.showTask(newTask);
             task.addTask(newTask);
             ui.addTaskInput.value = '';
@@ -51,6 +57,7 @@ class Events {
             task.taskItems.forEach((item) => {
                 if(item.Id === parseInt(ui.taskId.textContent)) {
                     item.Name = ui.editText.value;
+                    item.Type = ui.editType.value;
                     ui.taskList.innerHTML = '';
                     ui.editText.value = '';
                     task.saveTasks();
@@ -63,17 +70,22 @@ class Events {
             ui.editDialog.close();
         });
         this.stopReminders = ui.stopRemindersBtn.addEventListener('click', () => {
-            task.turnOffReminders = true;
+            reminder.turnOffReminders = true;
         });
-        this.resumeReminders = ui.addRemindersBtn.addEventListener('click', () => {
-            task.turnOffReminders = false;
+        this.submitReminderForm = ui.remindersForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            reminder.createNewReminder(ui.reminderText.value, ui.reminderType.value, ui.reminderInterval.value);
+            ui.reminderText.value = '';
+            ui.reminderInterval.value = '';
+            ui.reminderType.value = 'Other';
         });
     }
     addEditEvent(button, Id) {
         button.addEventListener('click', () => {
+            this.openEditDialog();
             task.taskItems.forEach((item) => {
                 if(item.Id === Id) {
-                    ui.editDialog.showModal();
+                    
                     ui.editText.value = item.Name;
                     ui.taskId.textContent = Id;
                 }
@@ -92,44 +104,62 @@ class Events {
             })
         })
     }
+    openEditDialog() {
+        ui.editDialog.showModal();
+    }
+}
+
+class AutomaticReminders {
+    constructor() {
+        this.savedReminders = localStorage.getItem('reminders') || [];
+        this.turnOffReminders = false;
+    }
+    createNewReminder(name, type, interval) {
+        const adjustedInterval = interval * 1000;
+        this.newReminder = setInterval(() => {
+            if(task.taskItems.length < 15 && this.turnOffReminders === false) {
+                const reminder = {
+                    Id: parseInt(task.idValue),
+                    Name: name,
+                    Type: type
+                }
+                task.idValue = parseInt(task.idValue) + 1;
+                task.saveIdValue();
+                ui.showTask(reminder);
+            }
+        }, adjustedInterval);
+    }
 }
 
 class Main {
     constructor() {
         this.taskItems = [];
-        this.addPostureCheck = setInterval(() => {
-            if(task.taskItems.length < 15 && this.turnOffReminders === false) {
-                const reminder = {
-                    Id: (task.taskItems.length + 1),
-                    Name: 'Posture check, back away from the screen!',
-                    Type: 'Other'
-                }
-                this.taskItems.push(reminder);
-                this.saveTasks();
-                ui.showTask(reminder);
-            }
-        }, 600000);
-        this.turnOffReminders = false;
+        this.idValue = localStorage.getItem('idValue') || 1;
     }
     getTasks() {
         if(localStorage.getItem('tasks') !== null) {
+            this.taskItems = [];
             const savedTasks = JSON.parse(localStorage.getItem('tasks'))
             savedTasks.forEach((item) => {
                 this.taskItems.push(item);
-                ui.showTask(item)
+                ui.showTask(item);
             });
         }
     }
     addTask(task) {
         this.taskItems.push(task);
-        this.saveTasks(this.taskItems);
+        this.saveTasks();
     }
     saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(this.taskItems));
     }
+    saveIdValue() {
+        localStorage.setItem('idValue', JSON.stringify(this.idValue));
+    }
 }
 
 const ui = new UserInterface();
-const eventListeners = new Events();
+const events = new EventListeners();
 const task = new Main();
+const reminder = new AutomaticReminders();
 task.getTasks();
