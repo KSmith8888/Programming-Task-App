@@ -3,37 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A programming-themed task app designed to increase productivity.">
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
     <title>Programming Task App</title>
 </head>
 <body>
     <div id="container">
-        <header>
-            <h1 id="header">Programming Task App</h1>
+        <header id="header">
+            <h1 class="title">Programming Task App</h1>
+            <p class="subtitle">//Don't forget to...</p>
         </header>
         <main>
-            <section>
-                <label for="add-task-form">Add a new Task</label>
-                <form id="add-task-form">
-                    <label for="add-task-input">Add Task:</label>
-                    <input id="add-task-input" type="text" required>
-                    <label for="task-type">Select Type:</label>
-                    <select id="task-type" required>
-                        <option>Other</option>
-                        <option>Bug Fix</option>
-                        <option>Test New Idea</option>
-                    </select>
-                <button type="submit" id="add-task-btn">Add</button>
-            </form>
-            </section>
-            <section>
-                <label for="reminder-preference-form">Change preference for automatic reminders:</label>
-                <form id="reminder-preference-form">
-                    <button type="button" id="stop-reminders-btn">Stop Reminders</button>
-                    <button type="button" id="add-reminders-btn">Add Reminders</button>
-                </form>
-            </section>
+            <div id="task-forms-container">
+                <section id="add-task-section">
+                    <label for="add-task-form" class="block vertical-margin-small">Add a new Task</label>
+                    <form id="add-task-form">
+                        <label for="add-task-input" class="block vertical-margin-small">Add Task:</label>
+                        <input id="add-task-input" type="text" required class="block vertical-margin-small">
+                        <label for="task-type" class="block vertical-margin-small">Select Type:</label>
+                        <select id="task-type" required class="block vertical-margin-small">
+                            <option>Other</option>
+                            <option>Bug Fix</option>
+                            <option>Test New Idea</option>
+                        </select>
+                        <button id="add-task-btn" type="submit" class="block vertical-margin-small">Add</button>
+                    </form>
+                </section>
+                <section id="add-reminder-section">
+                    <label for="automatic-reminder-form" class="block">Change preference for automatic reminders:</label>
+                    <form id="automatic-reminder-form">
+                        <label for="reminder-text" class="block vertical-margin-small">Enter text for timed reminder</label>
+                        <input type="text" id="reminder-text" required class="block vertical-margin-small">
+                        <label for="reminder-task-type" class="block vertical-margin-small">Reminder Type:</label>
+                        <select id="reminder-task-type" class="block vertical-margin-small">
+                            <option>Other</option>
+                            <option>Bug Fix</option>
+                            <option>Test New Idea</option>
+                        </select>
+                        <label for="reminder-interval" class="block vertical-margin-small">Interval (in minutes) of timed reminders</label>
+                        <input type="number" id="reminder-interval" min="1" max="60" class="block vertical-margin-small">
+                        <div class="vertical-margin-small">
+                            <button id="add-reminders-btn" type="submit">Add Reminder</button>
+                            <button id="stop-reminders-btn" type="button">Stop Reminder</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
             <section id="task-list"></section>
             <dialog id="edit-dialog">
                 <div id="dialog-container">
@@ -41,7 +57,13 @@
                     <form id="edit-form">
                         <label for="edit-text">Update Task Text</label>
                         <input id="edit-text" type="text">
-                        <button type="submit">Edit Task</button>
+                        <label for="edit-task-type">Update Type:</label>
+                        <select id="edit-task-type">
+                            <option>Other</option>
+                            <option>Bug Fix</option>
+                            <option>Test New Idea</option>
+                        </select>
+                        <button type="submit" id="edit-submit-btn">Edit Task</button>
                     </form>
                     <button id="close-dialog-btn" type="button">Close</button>
                 </div>
