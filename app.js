@@ -115,9 +115,10 @@ class AutomaticReminders {
         this.turnOffReminders = false;
     }
     createNewReminder(name, type, interval) {
-        const adjustedInterval = interval * 1000;
+        const thisContext = this;
+        const adjustedInterval = interval * 60000;
         this.newReminder = setInterval(() => {
-            if(task.taskItems.length < 15 && this.turnOffReminders === false) {
+            if(task.taskItems.length < 15 && thisContext.turnOffReminders === false) {
                 const reminder = {
                     Id: parseInt(task.idValue),
                     Name: name,
@@ -163,3 +164,7 @@ const events = new EventListeners();
 const task = new Main();
 const reminder = new AutomaticReminders();
 task.getTasks();
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+}
