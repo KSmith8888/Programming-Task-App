@@ -1,0 +1,218 @@
+:root {
+    --darkGreen: rgb(4, 63, 9);
+    --lightGreen: rgb(198, 241, 198);
+    --lightGrey: rgb(228, 216, 216);
+    --lighterGrey: rgb(231, 230, 230);
+    --mediumGrey: rgb(184, 172, 172);
+    --lightBlue: rgb(216, 236, 247);
+    --mediumBlack: #1c1c1c;
+    --offWhite: rgb(235, 225, 225);
+    --darkBlack: rgb(20, 19, 19);
+    --small: .5em;
+} 
+
+body {
+    margin: 0;
+    width: 100vw;
+    max-width: 1800px;
+    min-height: 100vh;
+    color: var(--darkBlack);
+    font-family: 'Arial', 'Courier New', 'Segoe UI', sans-serif;
+    background-color: var(--lighterGrey);
+    display: flex;
+    justify-content: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#container {
+    width: 65%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--lightBlue);
+    border: 2px solid var(--darkGreen);
+}
+
+button {
+    cursor: pointer;
+    color: var(--darkBlack);
+    font-family: 'Arial', 'Courier New', 'Segoe UI', sans-serif;
+    border: 1px solid var(--mediumBlack);
+    background-color: var(--lightGrey);
+    border-radius: 5px;
+    padding: .2em .5em;
+}
+
+button:hover, button:focus {
+    background-color: var(--mediumGrey);
+}
+
+h2 {
+    margin: 0;
+}
+
+.block {
+    display: block;
+}
+
+.vertical-margin-small {
+    margin-top: var(--small);
+    margin-bottom: var(--small);
+}
+
+#header {
+    width: 100%;
+    text-align: center;
+}
+
+#logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-image {
+    margin-left: 1em;
+    border: 1px solid var(--darkGreen);
+}
+
+.title {
+    margin-bottom: .5em;
+}
+
+.subtitle {
+    color: var(--darkGreen);
+    font-size: 1.4rem;
+}
+
+main {
+    width: 90%;
+}
+
+#task-forms-container {
+    width: 100%;
+    min-height: 40vh;
+    display: flex;
+}
+
+#add-task-section {
+    width: 40%;
+    padding: 2em;
+    border: 1px solid var(--darkGreen);
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#add-task-form, #automatic-reminder-form {
+    padding: 1em 0 0 1em;
+}
+
+#add-reminder-section {
+    width: 60%;
+    padding: 2em;
+    border: 1px solid var(--darkGreen);
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-item {
+    border: 1px solid var(--darkGreen);
+    padding: .5em 1.5em;
+}
+
+#edit-dialog {
+    padding: 0;
+}
+
+#dialog-container {
+    width: 30vw;
+    height: 45vh;
+    font-size: 1.2rem;
+    background-color: var(--lighterGrey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#edit-text {
+    width: 100%;
+    margin: 1em 0;
+}
+
+#edit-task-type {
+    margin: 1em 0;
+}
+
+#id-text {
+    margin: 0;
+}
+
+#edit-form {
+    width: 80%;
+    margin: .5em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.edit-task-btn, .delete-task-btn, #add-reminders-btn,
+#stop-reminders-btn, #close-dialog-btn, #edit-submit-btn {
+    margin: .5em;
+    font-weight: 1.2rem;
+}
+
+@media (max-width: 950px) {
+    #container {
+        width: 100%;
+        border: none;
+    }
+    #dialog-container {
+        width: 45vw;
+    }
+    #add-task-section, #add-reminder-section {
+        width: 95%;
+    }
+}
+
+@media (max-width: 600px) {
+    #dialog-container {
+        width: 85vw;
+        height: 85vh;
+    }
+    #task-forms-container {
+        flex-direction: column;
+    }
+    #add-task-section, #add-reminder-section {
+        align-items: center;
+        padding: 1em;
+    }
+    #add-task-form, #automatic-reminder-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .header-image {
+        border-top: 1px solid var(--darkGreen);
+        border-right: 1px solid var(--darkGreen);
+    }
+    .task-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .edit-task-btn, .delete-task-btn {
+        width: 7em;
+    }
+}
