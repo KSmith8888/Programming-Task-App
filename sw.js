@@ -1,31 +1,46 @@
-const cacheName = 'programming-task-app-v1';
-const appFiles = [
-    './',
-    './index.html',
-    './styles.css',
-    './app.js',
-    './monitor.png',
-    './taskLogo.png'
-];
+'use strict';
 
-self.addEventListener('install', (e) => {
-    console.log('[Service Worker] Install');
-    e.waitUntil((async () => {
-      const cache = await caches.open(cacheName);
-      console.log('[Service Worker] Caching all: app files and content');
-      await cache.addAll(appFiles);
-    })());
+function initializeWorker() {
+  const cacheName = 'programming-task-app-v1';
+  const appFiles = [
+      './',
+      './index.html',
+      'CSS/styles.css',
+      './app.js',
+      './monitor.png',
+      'Images/task-logo-medium.png',
+      'Images/task-logo-large.png'
+  ];
+
+  self.addEventListener('install', (event) => {
+      try {
+        event.waitUntil((async () => {
+          const cache = await caches.open(cacheName);
+          await cache.addAll(appFiles);
+        })());
+      } catch(error) {
+        console.error(`Service worker installation or cache error: ${error}`);
+      }
   });
 
-  self.addEventListener('fetch', (e) => {
-    e.respondWith((async () => {
-      const r = await caches.match(e.request);
-      console.log(`[Service Worker] Fetching resources from cache: ${e.request.url}`);
-      if (r) { return r; }
-      const response = await fetch(e.request);
-      const cache = await caches.open(cacheName);
-      console.log(`[Service Worker] Caching new resource from the network: ${e.request.url}`);
-      cache.put(e.request, response.clone());
-      return response;
+  self.addEventListener('fetch', (event) => {
+    event.respondWith((async () => {
+      try {
+        const cacheResponse = await caches.match(event.request);
+        console.log(`[Service Worker] Fetching resources from cache: ${event.request.url}`);
+        if (cacheResponse) { 
+          return cacheResponse; 
+        }
+        const networkResponse = await fetch(event.request);
+        const cache = await caches.open(cacheName);
+        console.log(`[Service Worker] Caching new resource from the network: ${event.request.url}`);
+        cache.put(event.request, networkResponse.clone());
+        return networkResponse;
+      } catch(error) {
+        console.error(`Service worker fetch error: ${error}`);
+      }
     })());
   });
+}
+
+initializeWorker();
