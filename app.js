@@ -1,3 +1,5 @@
+'use strict';
+
 class UserInterface {
     constructor() {
         this.addTaskForm = document.querySelector('#add-task-form');
@@ -42,7 +44,7 @@ class EventListeners {
         this.submitNewTask = ui.addTaskForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const newTask = {
-                Id: (task.idValue),
+                Id: (parseInt(task.idValue)),
                 Name: ui.addTaskInput.value,
                 Type: ui.taskType.value
             }
@@ -55,11 +57,12 @@ class EventListeners {
         this.updateTask = ui.editForm.addEventListener('submit', (event) => {
             event.preventDefault();
             task.taskItems.forEach((item) => {
-                if(item.Id === parseInt(ui.taskId.textContent)) {
+                if((item.Id).toString() === ui.taskId.textContent) {
                     item.Name = ui.editText.value;
                     item.Type = ui.editType.value;
                     ui.taskList.innerHTML = '';
                     ui.editText.value = '';
+                    ui.editType.value = 'Other';
                     task.saveTasks();
                     task.getTasks();
                     ui.editDialog.close();
@@ -85,7 +88,6 @@ class EventListeners {
             this.openEditDialog();
             task.taskItems.forEach((item) => {
                 if(item.Id === Id) {
-                    
                     ui.editText.value = item.Name;
                     ui.taskId.textContent = Id;
                 }
@@ -165,6 +167,13 @@ const task = new Main();
 const reminder = new AutomaticReminders();
 task.getTasks();
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
+function registerWorker() {
+    if ('serviceWorker' in navigator) {
+        try {
+            navigator.serviceWorker.register('./sw.js');
+        } catch(error) {
+            console.error(`Error registering service worker: ${error}`);
+        }
+    }
 }
+registerWorker();
