@@ -7,7 +7,7 @@
     <meta name="theme-color" content="rgb(198, 241, 198)">
     <link href="./monitor.png" rel="icon" type="image/png">
     <link rel="manifest" href="./manifest.webmanifest">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="CSS/styles.css">
     <link rel="apple-touch-icon" href="./taskLogo.png">
     <script src="./app.js" defer></script>
     <title>Programming Task App</title>
@@ -15,16 +15,16 @@
 <body>
     <div id="container">
         <header id="header">
-            <img src="./taskLogo.png" width="80" height="80" alt="An old computer monitor with a black background and green text" class="header-image">
-            <div>
-                <h1 class="title">Programming Task App</h1>
+            <h1 class="title">Programming Task App</h1>
+            <div id="logo-container">
                 <p class="subtitle">//Don't forget to...</p>
+                <img src="Images/task-logo-medium.png" width="96" height="96" alt="An old computer monitor with a black screen and green text, with a peice of notepad paper as the backgound" class="header-image">
             </div>
-            <img src="./taskLogo.png" width="80" height="80" alt="An old computer monitor with a black background and green text" class="header-image">
         </header>
         <main>
             <div id="task-forms-container">
                 <section id="add-task-section">
+                    <h2>Tasks</h2>
                     <label for="add-task-form" class="block vertical-margin-small">Add a new Task</label>
                     <form id="add-task-form">
                         <label for="add-task-input" class="block vertical-margin-small">Add Task:</label>
@@ -39,7 +39,8 @@
                     </form>
                 </section>
                 <section id="add-reminder-section">
-                    <label for="automatic-reminder-form" class="block">Change preference for automatic reminders:</label>
+                    <h2>Reminders</h2>
+                    <label for="automatic-reminder-form" class="block">Add a new reminder</label>
                     <form id="automatic-reminder-form">
                         <label for="reminder-text" class="block vertical-margin-small">Enter text for timed reminder</label>
                         <input type="text" id="reminder-text" required class="block vertical-margin-small">
@@ -51,10 +52,8 @@
                         </select>
                         <label for="reminder-interval" class="block vertical-margin-small">Interval (in minutes) of timed reminders</label>
                         <input type="number" id="reminder-interval" min="1" max="60" class="block vertical-margin-small">
-                        <div class="vertical-margin-small">
-                            <button id="add-reminders-btn" type="submit">Add Reminder</button>
-                            <button id="stop-reminders-btn" type="button">Stop Reminder</button>
-                        </div>
+                        <button id="add-reminders-btn" type="submit">Add Reminder</button>
+                        <button id="stop-reminders-btn" type="button">Stop Reminder</button>
                     </form>
                 </section>
             </div>
