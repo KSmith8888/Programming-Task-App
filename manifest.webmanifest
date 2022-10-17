@@ -4,8 +4,8 @@
     "description": "Programming-themed task app designed to improve productivity.",
     "icons": [
       {
-        "src": "./monitor.png",
-        "sizes": "32x32",
+        "src": "Images/task-logo-small.png",
+        "sizes": "96x96",
         "type": "image/png"
       },
       {
@@ -15,12 +15,12 @@
       },
       {
         "src": "Images/task-logo-large.png",
-        "sizes": "550x550",
+        "sizes": "512x512",
         "type": "image/png"
       }
     ],
     "start_url": "./index.html",
-    "display": "fullscreen",
+    "display": "standalone",
     "theme_color": "rgb(198, 241, 198)",
     "background_color": "rgb(231, 230, 230)"
   }
