@@ -6,10 +6,13 @@ function initializeWorker() {
       './',
       './index.html',
       'CSS/styles.css',
+      'manifest.webmanifest',
       './app.js',
       './monitor.png',
+      'Images/task-logo-small.png',
       'Images/task-logo-medium.png',
-      'Images/task-logo-large.png'
+      'Images/task-logo-large.png',
+      'Audio/beep.wav'
   ];
 
   self.addEventListener('install', (event) => {
@@ -27,13 +30,13 @@ function initializeWorker() {
     event.respondWith((async () => {
       try {
         const cacheResponse = await caches.match(event.request);
-        console.log(`[Service Worker] Fetching resources from cache: ${event.request.url}`);
+          console.log(`[Service Worker] Fetching resources from cache: ${event.request.url}`);
         if (cacheResponse) { 
           return cacheResponse; 
         }
         const networkResponse = await fetch(event.request);
         const cache = await caches.open(cacheName);
-        console.log(`[Service Worker] Caching new resource from the network: ${event.request.url}`);
+          console.log(`[Service Worker] Caching new resource from the network: ${event.request.url}`);
         cache.put(event.request, networkResponse.clone());
         return networkResponse;
       } catch(error) {
