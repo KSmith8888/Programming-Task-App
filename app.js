@@ -77,6 +77,7 @@ class EventListeners {
         });
         this.submitReminderForm = ui.remindersForm.addEventListener('submit', (event) => {
             event.preventDefault();
+            reminder.turnOffReminders = false;
             reminder.createNewReminder(ui.reminderText.value, ui.reminderType.value, ui.reminderInterval.value);
             ui.reminderText.value = '';
             ui.reminderInterval.value = '';
@@ -115,6 +116,7 @@ class AutomaticReminders {
     constructor() {
         this.savedReminders = localStorage.getItem('reminders') || [];
         this.turnOffReminders = false;
+        this.beepSound = new Audio('Audio/beep.wav');
     }
     createNewReminder(name, type, interval) {
         const thisContext = this;
@@ -129,6 +131,8 @@ class AutomaticReminders {
                 task.idValue = parseInt(task.idValue) + 1;
                 task.saveIdValue();
                 ui.showTask(reminder);
+                task.addTask(reminder);
+                this.beepSound.play();
             }
         }, adjustedInterval);
     }
@@ -174,6 +178,8 @@ function registerWorker() {
         } catch(error) {
             console.error(`Error registering service worker: ${error}`);
         }
+    } else {
+        console.error('Service Workers not supported');
     }
 }
 registerWorker();
