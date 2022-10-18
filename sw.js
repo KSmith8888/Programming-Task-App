@@ -27,22 +27,36 @@ function initializeWorker() {
   });
 
   self.addEventListener('fetch', (event) => {
-    event.respondWith((async () => {
-      try {
-        const cacheResponse = await caches.match(event.request);
-          console.log(`[Service Worker] Fetching resources from cache: ${event.request.url}`);
+    try {
+      let { request } = event;
+      console.log(event);
+      //Remove range header from audio file to avoid cache issue
+      if (request.headers.has('range')) {
+        const newHeaders = new Headers(request.headers);
+        newHeaders.delete('range');
+        request = new Request(request.url, {
+            body: request.body,
+            method: request.method,
+            mode: request.mode,
+            headers: newHeaders
+        });
+        console.log('NEW', event);
+      }
+      event.respondWith((async () => {
+        const cacheResponse = await caches.match(request);
+          console.log(`[Service Worker] Fetching resources from cache: ${request.url}`);
         if (cacheResponse) { 
           return cacheResponse; 
         }
-        const networkResponse = await fetch(event.request);
+        const networkResponse = await fetch(request);
         const cache = await caches.open(cacheName);
-          console.log(`[Service Worker] Caching new resource from the network: ${event.request.url}`);
-        cache.put(event.request, networkResponse.clone());
+          console.log(`[Service Worker] Caching new resource from the network: ${request.url}`);
+        cache.put(request, networkResponse.clone());
         return networkResponse;
-      } catch(error) {
-        console.error(`Service worker fetch error: ${error}`);
-      }
     })());
+    } catch(error) {
+      console.error(`Service worker fetch error: ${error}`);
+    }
   });
 }
 
