@@ -13,8 +13,8 @@
 
 body {
     margin: 0;
-    width: 100vw;
-    max-width: 1800px;
+    width: 100%;
+    max-width: 1300px;
     min-height: 100vh;
     color: var(--darkBlack);
     font-family: 'Arial', 'Courier New', 'Segoe UI', sans-serif;
@@ -37,6 +37,7 @@ body {
     justify-content: flex-start;
     background-color: var(--lightBlue);
     border: 2px solid var(--darkGreen);
+    border-radius: 5px;
 }
 
 button {
@@ -47,6 +48,10 @@ button {
     background-color: var(--lightGrey);
     border-radius: 5px;
     padding: .2em .5em;
+}
+
+input, select {
+    background-color: #FFF;
 }
 
 button:hover, button:focus {
@@ -105,10 +110,10 @@ main {
     width: 40%;
     padding: 2em;
     border: 1px solid var(--darkGreen);
-    margin: 1em 0;
+    margin: 1em;
     display: flex;
     flex-direction: column;
-
+    border-radius: 5px;
 }
 
 #add-task-form, #automatic-reminder-form {
@@ -119,13 +124,15 @@ main {
     width: 60%;
     padding: 2em;
     border: 1px solid var(--darkGreen);
-    margin: 1em 0;
+    margin: 1em;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
 }
 
 .task-item {
     border: 1px solid var(--darkGreen);
+    border-radius: 5px;
     padding: .5em 1.5em;
 }
 
@@ -166,10 +173,10 @@ main {
     justify-content: space-around;
 }
 
-.edit-task-btn, .delete-task-btn, #add-reminders-btn,
+#add-task-btn, .edit-task-btn, .delete-task-btn, #add-reminders-btn,
 #stop-reminders-btn, #close-dialog-btn, #edit-submit-btn {
     margin: .5em;
-    font-weight: 1.2rem;
+    font-size: .9rem;
 }
 
 @media (max-width: 950px) {
