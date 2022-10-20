@@ -17,12 +17,14 @@ function initializeWorker() {
 
   self.addEventListener('install', (event) => {
       async function cacheFiles() {
-        const cache = await caches.open(cacheName);
-        await cache.addAll(appFiles);
+        try {
+          const cache = await caches.open(cacheName);
+          await cache.addAll(appFiles);
+        } catch(error) {
+          console.error(`Service worker cache error: ${error}`);
+        }
       }
-      event.waitUntil(cacheFiles().catch((error) => {
-        console.error(`Service worker installation or cache error: ${error}`);
-    }));
+      event.waitUntil(cacheFiles());
   });
 
   self.addEventListener('fetch', (event) => {
@@ -42,20 +44,22 @@ function initializeWorker() {
       }
       */
       async function getFiles() {
-        const cacheResponse = await caches.match(request);
-        console.log(`Service Worker fetching resources from cache: ${request.url}`);
-        if (cacheResponse) { 
-          return cacheResponse; 
+        try {
+          const cacheResponse = await caches.match(request);
+          console.log(`Service Worker fetching resources from cache: ${request.url}`);
+          if (cacheResponse) { 
+            return cacheResponse; 
+          }
+          const networkResponse = await fetch(request);
+          const cache = await caches.open(cacheName);
+          console.log(`Service Worker caching new resource from the network: ${request.url}`);
+          cache.put(request, networkResponse.clone());
+          return networkResponse;
+        } catch(error) {
+          console.error(`Service worker fetch error: ${error}`);
         }
-        const networkResponse = await fetch(request);
-        const cache = await caches.open(cacheName);
-        console.log(`Service Worker caching new resource from the network: ${request.url}`);
-        cache.put(request, networkResponse.clone());
-        return networkResponse;
       }
-      event.respondWith(getFiles().catch((error) => {
-      console.error(`Service worker fetch error: ${error}`);
-      }));
+      event.respondWith(getFiles());
   });
 }
 
