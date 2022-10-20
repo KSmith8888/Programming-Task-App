@@ -73,11 +73,10 @@ class EventListeners {
             ui.editDialog.close();
         });
         this.stopReminders = ui.stopRemindersBtn.addEventListener('click', () => {
-            reminder.turnOffReminders = true;
+            clearInterval(reminder.newReminder);
         });
         this.submitReminderForm = ui.remindersForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            reminder.turnOffReminders = false;
             reminder.createNewReminder(ui.reminderText.value, ui.reminderType.value, ui.reminderInterval.value);
             ui.reminderText.value = '';
             ui.reminderInterval.value = '';
@@ -179,7 +178,7 @@ function registerWorker() {
             console.error(`Error registering service worker: ${error}`);
         }
     } else {
-        console.error('Service Workers not supported');
+        console.log('Service Workers not supported');
     }
 }
 registerWorker();
