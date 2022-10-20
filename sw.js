@@ -21,7 +21,7 @@ function initializeWorker() {
           const cache = await caches.open(cacheName);
           await cache.addAll(appFiles);
         } catch(error) {
-          console.error(`Service worker cache error: ${error}`);
+          console.error(`Service Worker cache error: ${error}`);
         }
       }
       event.waitUntil(cacheFiles());
@@ -56,7 +56,11 @@ function initializeWorker() {
           cache.put(request, networkResponse.clone());
           return networkResponse;
         } catch(error) {
-          console.error(`Service worker fetch error: ${error}`);
+          console.error(`Network or fetch error: ${error}`);
+          return new Response("Network error, please check your connection and try again", {
+            status: 408,
+            headers: { "Content-Type": "text/plain" },
+          });
         }
       }
       event.respondWith(getFiles());
