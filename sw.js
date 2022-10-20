@@ -28,7 +28,6 @@ function initializeWorker() {
   self.addEventListener('fetch', (event) => {
       let request = event.request;
       //Remove range header from audio file to avoid cache issue
-      /*
       if (request.headers.has('range')) {
         const newHeaders = new Headers(request.headers);
         newHeaders.delete('range');
@@ -40,7 +39,6 @@ function initializeWorker() {
           headers: newHeaders
         });
       }
-      */
       async function getFiles() {
           const cacheResponse = await caches.match(request);
           console.log(`Service Worker fetching resources from cache: ${request.url}`);
@@ -51,7 +49,7 @@ function initializeWorker() {
           const cache = await caches.open(cacheName);
           console.log(`Service Worker caching new resource from the network: ${request.url}`);
           cache.put(request, networkResponse.clone()).catch((error) => {
-            console.error(error);
+            console.error(`Cache error: ${error}`);
           });
           return networkResponse;
       }
