@@ -172,11 +172,9 @@ task.getTasks();
 
 function registerWorker() {
     if ('serviceWorker' in navigator) {
-        try {
-            navigator.serviceWorker.register('./sw.js');
-        } catch(error) {
+        navigator.serviceWorker.register('./sw.js').catch((error) => {
             console.error(`Error registering service worker: ${error}`);
-        }
+        });
     } else {
         console.log('Service Workers not supported');
     }
